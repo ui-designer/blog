@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 //Import Modules
 import {MaterialModule} from './modules/material.module';
@@ -18,6 +19,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserregisterComponent } from './components/userregister/userregister.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { LoginService } from './_services/login/login.service';
 
 @NgModule({
   declarations: [
@@ -35,9 +37,10 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
