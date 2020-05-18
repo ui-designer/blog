@@ -16,3 +16,11 @@ main{
   width: 100%;
   margin:25px auto;
 }
+
+.mat-form-field-flex{
+  margin:10px 0;
+}
+
+.submit_button{
+    margin:15px 0 5px 0 !important;
+}

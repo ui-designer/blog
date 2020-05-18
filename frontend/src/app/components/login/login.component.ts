@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from 'src/app/_services/login/login.service';
+import { UserService } from 'src/app/_services/user/user.service';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -8,18 +10,31 @@ import { LoginService } from 'src/app/_services/login/login.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private login:LoginService) { }
+  constructor(private _login:UserService, private router:Router) {
 
-  ngOnInit() {
+    if(localStorage.getItem("token")){
+      this.router.navigate(['dashboard']);
+    }
+    else{
+      this.router.navigate(['login']);
+    }
+   }
 
-    this.login.login().subscribe(login => {this.login = login;
-      console.log(this.login)
-
-    })
-
-  }
-
-  savePost(){
+  ngOnInit() { }
+  data;
+  email:String= null;
+  password:String= null;
+  login(loginForm:NgForm){
+    if(loginForm.valid){
+      this._login.loginService(loginForm.value.usernameValue,loginForm.value.passwordValue).subscribe(data => {
+        this.data = data;
+        localStorage.setItem("token",JSON.stringify(this.data.token));
+        this.router.navigate(['dashboard']);
+      })
+    }else{
+      this.router.navigate(['login']);
+      return false;
+    }
 
   }
 

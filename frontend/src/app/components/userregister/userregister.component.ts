@@ -12,4 +12,8 @@ export class UserregisterComponent implements OnInit {
   ngOnInit() {
   }
 
+  userRegister(){
+
+  }
+
 }

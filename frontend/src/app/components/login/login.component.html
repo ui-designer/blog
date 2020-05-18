@@ -1,17 +1,16 @@
 <main>
 <mat-card>
-  <form (submit)="savePost(formPost)" #formPost="ngForm">
+  <form (ngSubmit)="login(loginForm)" #loginForm="ngForm">
     <mat-form-field class="example-full-width">
       <input type="text" matInput name="usernameValue" id="" ngModel placeholder="Username or Email ID" required minlength="3" #usernameValue="ngModel" />
-      <mat-error *ngIf="usernameValue.invalid" >Please Fill the username or email</mat-error>
+      <mat-error *ngIf="usernameValue.invalid" >Please Fill correct username or email</mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
       <input type="text" matInput name="passwordValue" id="" ngModel placeholder="Password" required #passwordValue="ngModel" />
-      <mat-error *ngIf="passwordValue.invalid" >Please Fill the Password</mat-error>
+      <mat-error *ngIf="passwordValue.invalid" >Please Fill correct Password</mat-error>
     </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit" >Save Post</button>
+    <button mat-raised-button color="primary" class="submit_button" type="submit" >Save Post</button>
   </form>
   </mat-card>
 </main>

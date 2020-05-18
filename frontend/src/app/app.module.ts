@@ -15,11 +15,17 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UserregisterComponent } from './components/userregister/userregister.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
-import { LoginService } from './_services/login/login.service';
+import { IsloginGuard } from './gaurds/islogin/islogin.guard';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { CreatepostComponent } from './components/admin/blogpost/createpost/createpost.component';
+import { EditpostComponent } from './components/admin/blogpost/editpost/editpost.component';
+import { AllpostsComponent } from './components/admin/blogpost/allposts/allposts.component';
+import { UpdatepasswordComponent } from './components/admin/updatepassword/updatepassword.component';
+import { EditprofileComponent } from './components/admin/editprofile/editprofile.component';
+import { UserService } from './_services/user/user.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +36,12 @@ import { LoginService } from './_services/login/login.service';
     DashboardComponent,
     UserregisterComponent,
     HomeComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    CreatepostComponent,
+    EditpostComponent,
+    AllpostsComponent,
+    UpdatepasswordComponent,
+    EditprofileComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +51,7 @@ import { LoginService } from './_services/login/login.service';
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoginService],
+  providers: [UserService, IsloginGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
