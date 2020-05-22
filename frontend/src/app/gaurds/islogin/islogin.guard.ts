@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, CanActivateChild, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UserService } from 'src/app/_services/user/user.service';
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -16,15 +17,15 @@ export class IsloginGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(localStorage.getItem("token")){
-      console.log(localStorage.getItem("token"));
-      return true;
-      this.router.navigate(['dashboard']);
-    }
-    else{
-      this.router.navigate(['login']);
-      return false;
-    }
+
+     if(!!localStorage.getItem("token")){
+       return true;
+       this.router.navigate(['dashboard']);
+     }
+     else{
+       this.router.navigate(['login']);
+       return false;
+     }
 
   }
   canActivateChild(
