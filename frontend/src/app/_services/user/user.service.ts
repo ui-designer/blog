@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as jwt_decode from "jwt-decode";
+import { parse } from 'querystring';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,15 @@ export class UserService {
 
   }
 
-   BASE_URL = "http://localhost:4000/api/user/login";
+   BASE_URL = "http://localhost:4000/api/user";
 
 
   loginService(email,password): Observable<any> {
-    return this._http.post<any>(this.BASE_URL, { email:email, password:password} );
+    return this._http.post<any>(`${this.BASE_URL}/login`, { email:email, password:password} );
+  }
+
+  registrationService({registrationData}): Observable<any> {
+    return this._http.post<any>(`${this.BASE_URL}/register`, registrationData );
   }
 
 
@@ -30,7 +35,7 @@ export class UserService {
         localStorage.setItem("token",JSON.stringify(this.data.token));
         const token = localStorage.getItem("token");
         if(token){
-          this.router.navigate(['dashboard']);
+          this.router.navigate[('dashboard')];
         } else{
           this.router.navigate(['login']);
         }
@@ -38,12 +43,18 @@ export class UserService {
   }
 
 
-  get isLoginIn():boolean{
-    const  user  =  JSON.parse(localStorage.getItem('refreshTok'));
-    return  user  !==  null;
-  }
+  // get isLoginIn():boolean{
+  //   const  user  =  JSON.parse(localStorage.getItem('refreshTok'));
+  //   return  user  !==  null;
+  // }
 
 
+
+userData(data): Observable<any> {
+  //const dataParse = JSON.stringify({});
+  //console.log({[data.name]:data.value})
+  return this._http.post<any>(`${this.BASE_URL}/userData`, {[data.name]:data.value} );
+}
 
 
 }

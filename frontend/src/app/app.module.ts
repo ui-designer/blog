@@ -3,6 +3,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { JwtModule } from "@auth0/angular-jwt";
+
 
 //Import Modules
 import {MaterialModule} from './modules/material.module';
@@ -49,7 +51,16 @@ import { UserService } from './_services/user/user.service';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem("token");
+      },
+        whitelistedDomains: ["http://localhost:4000/api/"],
+        skipWhenExpired:true
+      },
+    }),
   ],
   providers: [UserService, IsloginGuard],
   bootstrap: [AppComponent]

@@ -70,6 +70,31 @@ router.post("/login", async (req,res) =>{
 
 
 
+router.post("/userData", async (req,res)=>{
+    
+
+
+   
+        const userExist = await userRegister.find({ $or: [ {name:req.body.name},{email:req.body.email},{phone:req.body.phone} ]});
+
+        //res.send();
+
+        if(userExist[0]) {
+            res.send("true");
+        }else {
+            res.send("false");
+        }
+
+      
+        
+    
+        
+
+   
+});
+
+
+
 
 
 
