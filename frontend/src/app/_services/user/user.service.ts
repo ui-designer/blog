@@ -22,10 +22,9 @@ export class UserService {
     return this._http.post<any>(`${this.BASE_URL}/login`, { email:email, password:password} );
   }
 
-  registrationService({registrationData}): Observable<any> {
+  registrationService(registrationData): Observable<any> {
     return this._http.post<any>(`${this.BASE_URL}/register`, registrationData );
   }
-
 
 
   data:any=null;
@@ -42,19 +41,6 @@ export class UserService {
     })
   }
 
-
-  // get isLoginIn():boolean{
-  //   const  user  =  JSON.parse(localStorage.getItem('refreshTok'));
-  //   return  user  !==  null;
-  // }
-
-
-
-userData(data): Observable<any> {
-  //const dataParse = JSON.stringify({});
-  //console.log({[data.name]:data.value})
-  return this._http.post<any>(`${this.BASE_URL}/userData`, {[data.name]:data.value} );
-}
 
 
 }

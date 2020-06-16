@@ -1,41 +1,40 @@
 <main>
   <mat-card>
-    <form (ngSubmit)="userRegister(registrationForm)" #registrationForm="ngForm">
+    <form [formGroup]="registrationForm" (ngSubmit)="userRegister()" >
       <mat-form-field class="example-full-width">
-        <input type="text" matInput name="name" id="" ngModel placeholder="name" required  #name="ngModel" (keydown)="dataMatch(name)" />
-        <mat-error *ngIf="val && (name.dirty || name.touched)" > UserName Already in use! Please try another one.</mat-error>
-        {{val}}
-        <!-- <mat-error *ngIf="name.invalid" >Please Fill correct name</mat-error> -->
-        {{matchFlag}}
+        <input type="text" matInput  placeholder="Username*" formControlName="name" />
+          <mat-error *ngIf="registrationForm.controls.name.errors?.required">  Please Fill correct name</mat-error>
+          <mat-error *ngIf="registrationForm.controls.name.errors?.minlength">  Username Should be 4 character. {{registrationForm.controls.name.errors.minlength.requiredLength - registrationForm.controls.name.errors.minlength.actualLength}} character left to complete the field </mat-error>
+          <mat-error  *ngIf="registrationForm.controls.name.errors?.nameIsNotAllowed" > UserName Already in use! Please try another one.</mat-error>
       </mat-form-field>
 
 
       <mat-form-field class="example-full-width">
-        <input type="text" matInput name="email" id="" ngModel placeholder="Email ID"  email #email="ngModel" (keyup)="dataMatch(email)" />
-        <mat-error *ngIf="email.invalid" >Please Fill correct email</mat-error>
+        <input type="text" matInput   placeholder="Email ID*"  formControlName="email" />
+        <mat-error *ngIf="registrationForm.controls.email.errors?.email" >Please Fill correct email address</mat-error>
+        <mat-error  *ngIf="registrationForm.controls.email.errors?.emailIsNotAllowed" > Email Already in use! Please try another one.</mat-error>
       </mat-form-field>
-
 
       <mat-form-field class="example-full-width">
-        <input type="password" matInput name="password" id="" ngModel placeholder="Password"  #password="ngModel" />
-        <mat-error *ngIf="password.invalid" >Please Fill correct Password</mat-error>
+        <input type="text" matInput name="phone"  placeholder="Phone Number*" formControlName="phone"  />
+        <mat-error *ngIf="registrationForm.controls.phone.errors?.required">  Please Fill correct Phone Number</mat-error>
+        <mat-error *ngIf="registrationForm.controls.phone.errors?.minlength">  Phone Number Should be 10 Number. {{registrationForm.controls.phone.errors.minlength.requiredLength - registrationForm.controls.phone.errors.minlength.actualLength}} Number left to complete the field </mat-error>
+        <mat-error  *ngIf="registrationForm.controls.phone.errors?.phoneIsNotAllowed" > Phone Number Already in use! Please try another one.</mat-error>
       </mat-form-field>
 
-
-        <mat-radio-group aria-label="Select Gender" class="example-radio-group">
-          <mat-radio-button class="example-radio-button" name="gender" value="Male">Male</mat-radio-button>
-          <mat-radio-button class="example-radio-button" name="gender" value="Female">Female</mat-radio-button>
-        </mat-radio-group>
-
-
-
-
-
-
+      <mat-radio-group aria-label="Select Gender" class="example-radio-group">
+        <mat-radio-button class="example-radio-button" name="gender" value="Male">Male</mat-radio-button>
+        <mat-radio-button class="example-radio-button" name="gender" value="Female">Female</mat-radio-button>
+      </mat-radio-group>
 
       <mat-form-field class="example-full-width">
-        <input type="text" matInput name="phone" id="" ngModel placeholder="Phonenumber"  minlength="" #phone="ngModel" (keyup)="dataMatch(phone)" />
-        <mat-error *ngIf="phone.invalid" >Please Fill correct Phonenumber</mat-error>
+        <input type="password" matInput name="password" formControlName="password" placeholder="Password*"  />
+        <mat-error *ngIf="" >Please Fill correct Password</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input type="password" matInput name="cpassword" formControlName="cpassword" placeholder="Confirm Password*"  />
+        <mat-error *ngIf="" >Please Fill correct Confirm Password</mat-error>
       </mat-form-field>
 
 
@@ -43,7 +42,8 @@
 
 
 
-      <button mat-raised-button color="primary" class="submit_button" type="submit" >Save Post</button>
+
+      <button mat-raised-button color="primary" class="submit_button" type="submit" [disabled]="registrationForm.status == 'INVALID'" >Save Post</button>
     </form>
     </mat-card>
   </main>

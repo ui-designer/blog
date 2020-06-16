@@ -24,10 +24,10 @@ router.post("/register", async (req,res) =>{
     const registeredUser = new userRegister({
         name:req.body.name,
         email:req.body.email,
-        password:hashedPassword,
-        gender:req.body.gender,
-        userImagePath:req.body.userimage,
         phone:req.body.phone,
+        gender:req.body.gender,
+        password:hashedPassword,
+        userImagePath:req.body.userimage,
         address:req.body.address
     });
     
@@ -70,27 +70,35 @@ router.post("/login", async (req,res) =>{
 
 
 
-router.post("/userData", async (req,res)=>{
-    
-
-
-   
-        const userExist = await userRegister.find({ $or: [ {name:req.body.name},{email:req.body.email},{phone:req.body.phone} ]});
-
-        //res.send();
-
-        if(userExist[0]) {
+router.post("/userNameExist", async (req,res)=>{
+        const nameExist = await userRegister.findOne({name:req.body.name});
+        if(nameExist) {
             res.send("true");
         }else {
             res.send("false");
         }
-
-      
-        
-    
-        
-
    
+});
+
+router.post("/userEmailExist", async (req,res)=>{
+    const emailExist = await userRegister.findOne({email:req.body.email});
+    if(emailExist) {
+        res.send("true");
+    }else {
+        res.send("false");
+    }
+
+});
+
+
+router.post("/userPhoneExist", async (req,res)=>{
+    const phoneExist = await userRegister.findOne({phone:req.body.phone});
+    if(phoneExist) {
+        res.send("true");
+    }else {
+        res.send("false");
+    }
+
 });
 
 
