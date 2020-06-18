@@ -23,6 +23,7 @@ export class UserService {
   }
 
   registrationService(registrationData): Observable<any> {
+    //console.log(registrationData);
     return this._http.post<any>(`${this.BASE_URL}/register`, registrationData );
   }
 
@@ -34,7 +35,7 @@ export class UserService {
         localStorage.setItem("token",JSON.stringify(this.data.token));
         const token = localStorage.getItem("token");
         if(token){
-          this.router.navigate[('dashboard')];
+          this.router.navigate(['dashboard']);
         } else{
           this.router.navigate(['login']);
         }

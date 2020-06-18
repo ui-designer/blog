@@ -71,7 +71,7 @@ router.post("/login", async (req,res) =>{
 
 
 router.post("/userNameExist", async (req,res)=>{
-        const nameExist = await userRegister.findOne({name:req.body.name});
+        const nameExist = await userRegister.findOne({name:{ $regex:req.body.name, $options: "i"}});
         if(nameExist) {
             res.send("true");
         }else {

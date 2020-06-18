@@ -1,14 +1,17 @@
+<mat-toolbar color="primary">Login</mat-toolbar>
+
 <main>
 <mat-card>
-  <form (ngSubmit)="login(loginForm)" #loginForm="ngForm">
+  <form [formGroup]="loginFormGroup" (ngSubmit)="userLogin()" >
     <mat-form-field class="example-full-width">
-      <input type="text" matInput name="usernameValue" id="" ngModel placeholder="Username or Email ID" required minlength="3" #usernameValue="ngModel" />
-      <mat-error *ngIf="usernameValue.invalid" >Please Fill correct username or email</mat-error>
+      <input type="text" matInput   placeholder="Email ID*"  formControlName="email" />
+      <mat-error *ngIf="loginFormGroup.controls.email.errors?.email" >Please Fill correct email address</mat-error>
+      <mat-error  *ngIf="loginFormGroup.controls.email.errors?.emailNotAvailable" > This email address is not registered with us. Kindly try with another email address or signup!</mat-error>
     </mat-form-field>
 
     <mat-form-field class="example-full-width">
-      <input type="text" matInput name="passwordValue" id="" ngModel placeholder="Password" required #passwordValue="ngModel" />
-      <mat-error *ngIf="passwordValue.invalid" >Please Fill correct Password</mat-error>
+      <input type="password" matInput name="password" id="" placeholder="Password" formControlName="password" />
+      <mat-error *ngIf="" >Please Fill correct Password</mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" class="submit_button" type="submit" >Save Post</button>
   </form>

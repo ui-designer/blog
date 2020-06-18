@@ -24,3 +24,4 @@ main{
 .submit_button{
     margin:15px 0 5px 0 !important;
 }
+.mat-radio-group{margin: 15px 0;display: inline-block;}

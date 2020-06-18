@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/_services/user/user.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import * as jwt_decode from "jwt-decode";
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,8 @@ import * as jwt_decode from "jwt-decode";
 
 export class LoginComponent implements OnInit {
 
-
-  constructor(private _login:UserService, private router:Router) {
+loginFormGroup: FormGroup;
+  constructor(private _login:UserService, private router:Router, private _http:HttpClient) {
       if(!!localStorage.getItem("token")){
         this.router.navigate(['dashboard']);
       }
@@ -24,13 +25,43 @@ export class LoginComponent implements OnInit {
       }
    }
 
-  ngOnInit() { }
 
-  login(loginForm:NgForm){
-    if(loginForm.valid){
-      this._login.login(loginForm.value.usernameValue,loginForm.value.passwordValue);
+
+  ngOnInit() {
+    this.loginFormGroup = new FormGroup({
+        'email': new FormControl(null,[Validators.required,Validators.email], this.isEmailUnique.bind(this)),
+        'password': new FormControl(null,[Validators.required])
+    });
+   }
+
+   res;
+  userLogin(){
+    console.log(this.loginFormGroup);
+    if(this.loginFormGroup.valid){
+      this._login.login(this.loginFormGroup.value.email,this.loginFormGroup.value.password);
+
     }
   }
+
+
+
+  uniqueEmail;
+
+  isEmailUnique(control:FormControl): Promise<any> | Observable<any> {
+    return new Promise<any>( resolve=>{
+      setTimeout(()=>{
+        //console.log(this.registrationForm);
+        this._http.post('http://localhost:4000/api/user/userEmailExist',{email:control.value}).subscribe(uniqueEmail => {
+          if(uniqueEmail != true){
+            resolve({'emailNotAvailable':true});
+          }else{
+            resolve(null);
+          }
+          } )
+      },1000);
+    })
+  }
+
 
 
 
