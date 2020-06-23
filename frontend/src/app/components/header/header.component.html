@@ -1,0 +1,22 @@
+  <header class="header">
+    <div class="custom_page">
+      <div class="logo">
+        <h2>Blog </h2>
+      </div>
+      <div class="navigation">
+        <nav>
+          <ul>
+            <li>
+              <button mat-button [matMenuTriggerFor]="belowMenu"  *ngIf="loginStatus == true">  {{userName}}  </button>
+              <button mat-button [matMenuTriggerFor]="belowMenu"  *ngIf="loginStatus == false" routerLink='login' >  Login  </button>
+              <mat-menu #belowMenu="matMenu" yPosition="below"  >
+                <button mat-menu-item *ngIf="loginStatus == true">Change Password</button>
+                <button mat-menu-item (click)="logout()" *ngIf="loginStatus == true">Logout</button>
+              </mat-menu>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+

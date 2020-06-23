@@ -53,19 +53,23 @@ router.post("/login", async (req,res) =>{
 
     // create auth-token 
 
-    const token = jwt.sign({_id:userExist._id}, process.env.TOKEN_SECRET);
+    const token = jwt.sign({_id:userExist._id,name:userExist.name}, process.env.TOKEN_SECRET, { expiresIn:  6*60*60 });
 
-    res.header("auth-token", token).send({_id:userExist._id,token: token});
+    res.header("auth-token", token).send({_id:userExist._id,name:userExist.name,token: token});
+
+});
 
 
-
-
-    // try {
-    //     const userTable = await registeredUser.save();
-    //     res.send(userTable);
-    // } catch (error) {
-    //     res.status(400).send(error);
-    // }
+router.post("/tokenValidate", async (req,res)=>{
+    
+    jwt.verify(req.body.token, process.env.TOKEN_SECRET, function(err, decoded) {
+        if(!err){
+            res.send(decoded);
+        }else{
+            res.send(err);
+        }
+      });
+      
 });
 
 
@@ -102,6 +106,16 @@ router.post("/userPhoneExist", async (req,res)=>{
 });
 
 
+
+router.put('/forgotPassword', async (req,res)=>{
+    const phoneExist = await userRegister.findOne({phone:req.body.phone});
+    if(phoneExist) {
+        res.send("true");
+    }else {
+        res.send("false");
+    }
+
+});
 
 
 

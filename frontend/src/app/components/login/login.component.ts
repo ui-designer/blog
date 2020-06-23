@@ -4,6 +4,7 @@ import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +17,11 @@ import { HttpClient } from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
 loginFormGroup: FormGroup;
-  constructor(private _login:UserService, private router:Router, private _http:HttpClient) {
-      if(!!localStorage.getItem("token")){
-        this.router.navigate(['dashboard']);
-      }
-      else{
-        this.router.navigate(['login']);
-      }
+tokenData;
+  constructor(private _login:UserService, private router:Router, private _http:HttpClient, private jwtHelp : JwtHelperService) {
+   this._login.isLogin();
+
+
    }
 
 

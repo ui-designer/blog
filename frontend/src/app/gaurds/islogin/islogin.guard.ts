@@ -11,22 +11,22 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class IsloginGuard implements CanActivate, CanActivateChild, CanLoad {
 
   constructor(
-    private _islogin:UserService,
     private router:Router,
-    private jwtHelp : JwtHelperService
+    private jwtHelp : JwtHelperService,
+    private _userService : UserService
     ){}
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       const tokenExist = localStorage.getItem("token");
-      const id = this.jwtHelp.decodeToken(tokenExist)._id;
-
-     if(tokenExist && id){
+     // const id = this.jwtHelp.decodeToken(tokenExist)._id;
+     if(tokenExist){
+      this._userService.isGaurdDashboard();
        return true;
-       this.router.navigate(['dashboard']);
      }
      else{
+      // console.log('else');
        this.router.navigate(['login']);
        return false;
      }

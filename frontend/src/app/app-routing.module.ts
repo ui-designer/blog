@@ -17,7 +17,7 @@ const routes: Routes = [
   {path:'', component:HomeComponent},
   {path:'login', component:LoginComponent},
   {path:'userregister', component:UserregisterComponent},
-  {path:'dashboard', canActivate:[IsloginGuard], children:[
+  {path:'dashboard',  canActivate:[IsloginGuard], children:[
     {path:'', component:DashboardComponent},
     {path:'allposts', component:AllpostsComponent},
     {path:'createpost', component:CreatepostComponent},

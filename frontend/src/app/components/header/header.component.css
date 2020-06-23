@@ -1,0 +1,10 @@
+.header{
+  background: #3f51b5;
+  color: #fff;
+}
+
+.header > .custom_page{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 16px;
+}
