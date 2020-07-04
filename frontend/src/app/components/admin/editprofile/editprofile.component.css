@@ -1,0 +1,17 @@
+.fileupload label{
+  display: flex;
+  align-items: center;
+  padding: 8px 23px;
+  background: #ba2f4d;
+  color: #fff;
+  justify-content: center;
+  width: min-content;
+  border-radius: 6px;
+  margin: 15px 0;
+  cursor: pointer;
+
+}
+
+.fileupload{    display: flex;  align-items: center;}
+.fileupload span{    padding-left: 15px;}
+.editprofile_image img{width: 50px;}

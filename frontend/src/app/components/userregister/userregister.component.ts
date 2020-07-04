@@ -59,6 +59,7 @@ export class UserregisterComponent implements OnInit {
         'gender': new FormControl('Male'),
         'password': new FormControl(null,[Validators.required]),
         'cpassword': new FormControl(null,[Validators.required]),
+        'image': new FormControl(" ")
     },  passwordMatch('password', 'cpassword'));
 
 
@@ -69,9 +70,10 @@ export class UserregisterComponent implements OnInit {
 
   res;
   userRegister(){
-    //console.log(this.registrationForm);
+    //console.log(this.registrationForm.value);
     if(this.registrationForm.valid){
-          this._registrationService.registrationService(this.registrationForm.value).subscribe(res => {
+      this._registrationService.registrationService(this.registrationForm.value).subscribe(res => {
+          //console.log(res);
            res = this.res;
           } )
           this.registrationForm.reset();

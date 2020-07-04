@@ -35,11 +35,11 @@ tokenData;
 
    res;
   userLogin(){
-    console.log(this.loginFormGroup);
+    //console.log(this.loginFormGroup);
     if(this.loginFormGroup.valid){
       this._login.login(this.loginFormGroup.value.email,this.loginFormGroup.value.password);
-
     }
+
   }
 
 

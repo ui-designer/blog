@@ -23,7 +23,7 @@ const routes: Routes = [
     {path:'createpost', component:CreatepostComponent},
     {path:'editpost', component:EditpostComponent},
     {path:'editprofile', component:EditprofileComponent},
-    {path:'update', component:UpdatepasswordComponent},
+    {path:'updatepassword', component:UpdatepasswordComponent},
   ]},
   {path:'**', component:NotfoundComponent}
 

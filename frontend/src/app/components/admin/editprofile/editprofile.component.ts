@@ -19,22 +19,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./editprofile.component.css']
 })
 export class EditprofileComponent implements OnInit {
+  images;
+
+  selectImage(event){
+    if(event.target.files.length>0){
+      const file = event.target.files[0];
+      this.images = file;
+    }
+  }
+
+  editProfileForm: FormGroup;
+name;
+email;
+phone;
+gender;
+imageName;
 
 
-  registrationForm: FormGroup;
-
-  constructor(private _registrationService:UserService, private _http:HttpClient, private route:Router) {  }
+  constructor(private _userService:UserService, private _http:HttpClient, private route:Router) {
+    this._userService.isGaurdDashboard();
+    this._userService.profile().subscribe(res=> {
+      this.name = res.name;
+      this.email = res.email;
+      this.phone = res.phone;
+      this.gender = res.gender;
+      this.imageName = res.image
+      this.editProfileForm = new FormGroup({
+        'name': new FormControl(this.name,[Validators.required,Validators.minLength(4)],this.isNameUnique.bind(this)),
+        'email': new FormControl(this.email,[Validators.required, Validators.email],this.isEmailUnique.bind(this)),
+        'phone': new FormControl(this.phone,[Validators.required],this.isPhoneUnique.bind(this)),
+        'gender': new FormControl(this.gender),
+        'image': new FormControl(null)
+    });
+    });
+  }
 
   ngOnInit() {
     //REACTIVE FORM CODE
-    this.registrationForm = new FormGroup({
-        'name': new FormControl(null,[Validators.required,Validators.minLength(4)],this.isNameUnique.bind(this)),
-        'email': new FormControl(null,[Validators.required, Validators.email],this.isEmailUnique.bind(this)),
-        'phone': new FormControl(null,[Validators.required],this.isPhoneUnique.bind(this)),
-        'gender': new FormControl('Male'),
-        'password': new FormControl(null,[Validators.required]),
-        'cpassword': new FormControl(null,[Validators.required]),
-    });
+
 
 
 
@@ -43,15 +65,20 @@ export class EditprofileComponent implements OnInit {
 
 
   res;
-  userRegister(){
-    //console.log(this.registrationForm);
-    if(this.registrationForm.valid){
-          this._registrationService.registrationService(this.registrationForm.value).subscribe(res => {
-           res = this.res;
+  editProfile(){
+    const formData = new FormData();
+    formData.append('image',this.images)
+    if(this.editProfileForm.valid){
+        this._userService.editProfile({name:this.editProfileForm.controls.name.value, email:this.editProfileForm.controls.email.value, phone:this.editProfileForm.controls.phone.value, gender:this.editProfileForm.controls.gender.value}).subscribe(res => {
+            res = this.res;
+         } )
+
+         this._userService.imageUpload(formData).subscribe(res => {
+            res = this.res;
           } )
-          this.registrationForm.reset();
-          this.route.navigate(['login']);
         }
+
+
   }
 
 uniqueName;
@@ -59,8 +86,8 @@ uniqueName;
 isNameUnique(control:FormControl): Promise<any> | Observable<any> {
   return new Promise<any>( resolve=>{
     setTimeout(()=>{
-      //console.log(this.registrationForm);
-      this._http.post('http://localhost:4000/api/user/userNameExist',{name:control.value}).subscribe(uniqueName => {
+      //console.log(this.editProfileForm);
+      this._userService.profileNameVerify({name:control.value}).subscribe(uniqueName => {
         if(uniqueName == true){
           resolve({'nameIsNotAllowed':true});
         }else{
@@ -71,15 +98,13 @@ isNameUnique(control:FormControl): Promise<any> | Observable<any> {
   })
 }
 
-
-
 uniqueEmail;
 
 isEmailUnique(control:FormControl): Promise<any> | Observable<any> {
   return new Promise<any>( resolve=>{
     setTimeout(()=>{
-      //console.log(this.registrationForm);
-      this._http.post('http://localhost:4000/api/user/userEmailExist',{email:control.value}).subscribe(uniqueEmail => {
+      //console.log(this.editProfileForm);
+      this._userService.profileEmailVerify({email:control.value}).subscribe(uniqueEmail => {
         if(uniqueEmail == true){
           resolve({'emailIsNotAllowed':true});
         }else{
@@ -91,14 +116,13 @@ isEmailUnique(control:FormControl): Promise<any> | Observable<any> {
 }
 
 
-
 uniquePhone;
 
 isPhoneUnique(control:FormControl): Promise<any> | Observable<any> {
   return new Promise<any>( resolve=>{
     setTimeout(()=>{
-      //console.log(this.registrationForm);
-      this._http.post('http://localhost:4000/api/user/userPhoneExist',{phone:control.value}).subscribe(uniquePhone => {
+      //console.log(this.editProfileForm);
+      this._userService.profilePhoneVerify({phone:control.value}).subscribe(uniquePhone => {
         if(uniquePhone == true){
           resolve({'phoneIsNotAllowed':true});
         }else{

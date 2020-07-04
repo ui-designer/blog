@@ -6,7 +6,7 @@
 
 <main>
   <mat-card>
-    <form [formGroup]="registrationForm" (ngSubmit)="userRegister(); registrationForm.reset()" >
+    <form [formGroup]="registrationForm" (ngSubmit)="userRegister(); registrationForm.reset()" enctype="multipart/form-data" >
       <mat-form-field class="example-full-width">
         <input type="text" matInput  placeholder="Username*" formControlName="name" />
           <mat-error *ngIf="registrationForm.controls.name.errors?.required">  Please Fill correct name</mat-error>
@@ -47,6 +47,7 @@
 
 
 
+      <input type="hidden" name="file" formControlName="image" id="file" style="display: none;" >
 
 
 

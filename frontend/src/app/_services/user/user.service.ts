@@ -1,8 +1,8 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class UserService {
   @Output() getLoggedInName = new EventEmitter();
   @Output() getLoggedInStatus = new EventEmitter();
 
-  constructor( private _http:HttpClient, private router:Router ) {
+  constructor( private _http:HttpClient, private router:Router, private jwtHelp:JwtHelperService ) {
 
   }
 
@@ -31,6 +31,39 @@ export class UserService {
   tokenValidateService(token): Observable<any> {
     //console.log({token:token});
     return this._http.post<any>(`${this.BASE_URL}/tokenValidate`, {token:token} );
+  }
+
+
+  profile(): Observable<any> {
+    const userId = this.jwtHelp.decodeToken()._id;
+    return this._http.get(`${this.BASE_URL}/profile/${userId}`);
+  }
+
+
+  profileNameVerify(data): Observable<any> {
+    const userId = this.jwtHelp.decodeToken()._id;
+    return this._http.post(`${this.BASE_URL}/updateNameVerify/${userId}`, data);
+  }
+
+  profileEmailVerify(data): Observable<any> {
+    const userId = this.jwtHelp.decodeToken()._id;
+    return this._http.post(`${this.BASE_URL}/updateEmailVerify/${userId}`, data);
+  }
+
+
+  profilePhoneVerify(data): Observable<any> {
+    const userId = this.jwtHelp.decodeToken()._id;
+    return this._http.post(`${this.BASE_URL}/updatePhoneVerify/${userId}`, data);
+  }
+
+  imageUpload(data): Observable<any> {
+    const userId = this.jwtHelp.decodeToken()._id;
+    return this._http.patch(`${this.BASE_URL}/upload/${userId}`, data);
+  }
+
+  editProfile(data): Observable<any> {
+    const userId = this.jwtHelp.decodeToken()._id;
+    return this._http.patch(`${this.BASE_URL}/editProfile/${userId}`, data);
   }
 
 
@@ -73,11 +106,18 @@ islogin:boolean;
       }
     });
 
+  }else{
+    this.router.navigate(['login']);
+        this.getLoggedInStatus.emit(false);
+        return false;
   }
+
   }
 
   async isGaurdDashboard(){
     const token =localStorage.getItem("token");
+    // console.log(token);
+    // console.log(typeof(token));
     if(token !== null){
 
       const tokenString =token.split('"')[1];
@@ -100,6 +140,10 @@ islogin:boolean;
       }
     });
 
+  }else{
+    this.router.navigate(['login']);
+        this.getLoggedInStatus.emit(false);
+        return false;
   }
   }
 

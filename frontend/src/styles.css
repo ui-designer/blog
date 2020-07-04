@@ -39,3 +39,16 @@ mat-toolbar.mat-toolbar{
   background: #f9f9f9 !important;
   color: #333 !important;
 }
+.navigation nav ul {
+  display: flex;
+}
+
+.navigation nav ul li {
+  padding: 0px 5px;
+}
+
+.mat-fab.mat-primary, .mat-flat-button.mat-primary, .mat-mini-fab.mat-primary, .mat-raised-button.mat-primary{
+  background: #c5022c;
+}
+.mat-radio-label-content{margin-right: 15px;}
+.material_upload{display: block;margin: 15px 0;}
