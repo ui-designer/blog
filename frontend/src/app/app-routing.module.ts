@@ -17,13 +17,13 @@ const routes: Routes = [
   {path:'', component:HomeComponent},
   {path:'login', component:LoginComponent},
   {path:'userregister', component:UserregisterComponent},
-  {path:'dashboard', canActivate:[IsloginGuard], children:[
+  {path:'dashboard',  canActivate:[IsloginGuard], children:[
     {path:'', component:DashboardComponent},
     {path:'allposts', component:AllpostsComponent},
     {path:'createpost', component:CreatepostComponent},
     {path:'editpost', component:EditpostComponent},
     {path:'editprofile', component:EditprofileComponent},
-    {path:'update', component:UpdatepasswordComponent},
+    {path:'updatepassword', component:UpdatepasswordComponent},
   ]},
   {path:'**', component:NotfoundComponent}
 

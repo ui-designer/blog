@@ -6,7 +6,7 @@ const userRegisterSchema = new mongoose.Schema({
     email:String,
     password:String,
     gender:String,
-    userImagePath:String,
+    image:String,
     phone:Number,
     address:String
 });

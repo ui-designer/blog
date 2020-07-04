@@ -1,1 +1,29 @@
-<mat-toolbar color="primary">Login</mat-toolbar>
+  <header class="header">
+    <div class="custom_page">
+      <div class="logo">
+        <h2>Blog </h2>
+      </div>
+      <div class="navigation">
+        <nav>
+          <ul>
+            <li>
+              <button mat-button routerLink="/" >  Home </button>
+            </li>
+            <li>
+              <div  *ngIf="loginStatus == true">
+                <button mat-button routerLink="dashboard">  Dashboard  </button>
+                <button mat-button [matMenuTriggerFor]="belowMenu" class="profilename" >  <span class="menu_profilename"> <img class="menu_profileimage" [src]="this.imageName" alt=""> {{userName}} </span>  </button>
+              </div>
+              <button mat-button *ngIf="loginStatus == false" routerLink='login' >  Login  </button>
+              <mat-menu #belowMenu="matMenu" yPosition="below"  >
+                <button mat-menu-item *ngIf="loginStatus == true" routerLink='dashboard/editprofile'>Edit Profile</button>
+                <button mat-menu-item *ngIf="loginStatus == true" routerLink='dashboard/updatepassword'>Change Password</button>
+                <button mat-menu-item (click)="logout()" *ngIf="loginStatus == true">Logout</button>
+              </mat-menu>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+

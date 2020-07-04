@@ -1,0 +1,18 @@
+.header{
+  background: #c5022c;
+  color: #fff;
+}
+
+.header > .custom_page{
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 16px;
+}
+
+.menu_profilename span{display: inline-block;}
+.menu_profileimage{    width: 30px; height: 30px; border-radius: 50%; position: absolute; top: 0;bottom: 0;margin: auto; left: 0;}
+.menu_profilename {
+  padding-left: 40px;
+  display: inline-block;
+  position: relative;
+}

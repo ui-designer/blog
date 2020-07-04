@@ -4,12 +4,20 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TokenverifyService implements HttpInterceptor {
+  tokenString;
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token =localStorage.getItem("token");
+
+    if(token !== null){
+      this.tokenString = token.split('"')[1];
+    }
+    if(token){
   req = req.clone({
 setHeaders:{
-Authorization:`Bearer $(localStorage.getItem('token'))`,
+token:this.tokenString,
 },
   });
+}
     return next.handle(req);
   }
 }

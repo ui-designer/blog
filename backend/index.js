@@ -1,7 +1,9 @@
+const path = require("path");
 const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 
 dotenv.config();
@@ -18,7 +20,9 @@ const userRoutes = require("./routes/user");
 
 
 //Middlewares
+app.use("/images", express.static('public/uploads'));
 app.use(express.json());
+app.use(cors());
 
 //Routes Middleware
 app.use("/api/user", userRoutes);

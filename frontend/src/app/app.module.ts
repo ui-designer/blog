@@ -2,13 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from "@auth0/angular-jwt";
 
 
 //Import Modules
 import {MaterialModule} from './modules/material.module';
 import {FormsModule} from '@angular/forms';
+import {ReactiveFormsModule} from '@angular/forms';
 
 
 
@@ -28,6 +29,9 @@ import { AllpostsComponent } from './components/admin/blogpost/allposts/allposts
 import { UpdatepasswordComponent } from './components/admin/updatepassword/updatepassword.component';
 import { EditprofileComponent } from './components/admin/editprofile/editprofile.component';
 import { UserService } from './_services/user/user.service';
+import { TokenverifyService } from './_services/tokenverify/tokenverify.service';
+import { BytesPipe } from './pipes/BytesPipe/bytes.pipe';
+import { MaterialFileUploadComponent } from './components/shared/material-file-upload/material-file-upload.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,9 @@ import { UserService } from './_services/user/user.service';
     EditpostComponent,
     AllpostsComponent,
     UpdatepasswordComponent,
-    EditprofileComponent
+    EditprofileComponent,
+    BytesPipe,
+    MaterialFileUploadComponent
   ],
   imports: [
     BrowserModule,
@@ -51,6 +57,7 @@ import { UserService } from './_services/user/user.service';
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     JwtModule.forRoot({
       config: {
@@ -62,7 +69,12 @@ import { UserService } from './_services/user/user.service';
       },
     }),
   ],
-  providers: [UserService, IsloginGuard],
+  providers: [UserService, IsloginGuard,
+    {
+      provide:HTTP_INTERCEPTORS,
+      useClass:TokenverifyService,
+      multi:true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

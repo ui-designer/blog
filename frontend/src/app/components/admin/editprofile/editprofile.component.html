@@ -1,1 +1,51 @@
-<p>editprofile works!</p>
+<mat-toolbar color="primary">
+  <div class="custom_page">
+    Update Profile
+  </div>
+</mat-toolbar>
+
+<main>
+  <mat-card>
+    <form *ngIf="editProfileForm" [formGroup]="editProfileForm" (ngSubmit)="editProfile()" method="patch" enctype="multipart/form-data" >
+      <mat-form-field class="example-full-width">
+        <input type="text" matInput  placeholder="Username*" formControlName="name" />
+          <mat-error *ngIf="editProfileForm.controls.name.errors?.required">  Please Fill correct name</mat-error>
+          <mat-error *ngIf="editProfileForm.controls.name.errors?.minlength">  Username Should be 4 character. {{editProfileForm.controls.name.errors.minlength.requiredLength - editProfileForm.controls.name.errors.minlength.actualLength}} character left to complete the field </mat-error>
+          <mat-error  *ngIf="editProfileForm.controls.name.errors?.nameIsNotAllowed" > UserName Already in use! Please try another one.</mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field class="example-full-width">
+        <input type="text" matInput   placeholder="Email ID*"  formControlName="email" />
+        <mat-error *ngIf="editProfileForm.controls.email.errors?.email" >Please Fill correct email address</mat-error>
+        <mat-error  *ngIf="editProfileForm.controls.email.errors?.emailIsNotAllowed" > Email Already in use! Please try another one.</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input type="number" matInput  placeholder="Phone Number*" formControlName="phone"  />
+        <mat-error *ngIf="editProfileForm.controls.phone.errors?.required">  Please Fill correct Phone Number</mat-error>
+        <mat-error *ngIf="editProfileForm.controls.phone.errors?.phoneMinLength">  Phone Number Should be 10 Number.</mat-error>
+        <mat-error  *ngIf="editProfileForm.controls.phone.errors?.phoneIsNotAllowed" > Phone Number Already in use! Please try another one.</mat-error>
+      </mat-form-field>
+
+      <mat-radio-group aria-label="Select Gender" class="example-radio-group" formControlName="gender">
+        <mat-radio-button class="example-radio-button" value="Male">Male</mat-radio-button>
+        <mat-radio-button class="example-radio-button" value="Female">Female</mat-radio-button>
+      </mat-radio-group>
+
+        <!-- <app-material-file-upload (complete)="onFileComplete($event)"></app-material-file-upload> -->
+
+      <div class="fileupload">
+        <input type="file" style="display: none;" name="file" formControlName="image" id="file" multiple (change)="selectImage($event)">
+        <label for="file"><mat-icon>file_upload</mat-icon> <p>Upload</p></label> <span class="editprofile_image"> <img [src]="this.imageName" alt=""> </span> <span *ngIf="this.images">{{this.images.name}}</span>
+
+
+      </div>
+
+
+
+
+      <button mat-raised-button color="primary" class="submit_button" type="submit" [disabled]="editProfileForm.valid == false" >Update Profile</button>
+    </form>
+    </mat-card>
+  </main>
